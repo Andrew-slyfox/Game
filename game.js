@@ -1,33 +1,49 @@
-class round{
-    constructor(){
-        this.circle = document.querySelector(".area__circle");
-        this.dot = document.querySelector(".area__dot");
-        this.circle.addEventListener("mousemove", this.move);
-        this.circleStyle = getComputedStyle(this.circle);
-        this.dotStyle = getComputedStyle(this.dot);
-        this.R = parseInt(this.circleStyle.width)/2;
+class Round{
+    #circle;
+    #dot;
+    #dot_r;
+    #circle_R;
+    constructor(circle, dot, R, d){
+        this.#circle = circle;
+        this.#dot = dot;
+        this.#circle.addEventListener("mousemove", this.move);
+        this.#dot_r = d / 2;
+        this.#circle_R = R;
         };
 
     move = (event) =>{
         let position = this.get_position(event.pageX, event.pageY);
-        this.dot.style.left = position.x + "px";
-        this.dot.style.top = position.y + "px";
+        
+        this.#dot.style.left = position.x + "px";
+        this.#dot.style.top = position.y + "px";
+      // this.#dot.style.transform = "translate("+position.x+" + px, "+position.y+" + px)";
+       
     };
     get_position(x, y){
-        let coord_r = {x: x - this.R, y: y - this.R};
+        let coord_r = {x: x - this.#circle_R, y: y - this.#circle_R};
         let r = Math.sqrt(Math.pow(coord_r.x, 2) + Math.pow(coord_r.y, 2));
-        let coef = (this.R - parseInt(this.dotStyle.width)/2)/r;
-        return {x: this.R - coef*coord_r.x, y: this.R - coef*coord_r.y};
+        let coef = (this.#circle_R - parseInt(this.#dot_r))/r;
+        return {x: this.#circle_R - coef*coord_r.x, y: this.#circle_R - coef*coord_r.y};
     };
 }
-this.document.querySelector(".input__button").onclick = function(){
-    let circle = document.querySelector(".area__circle");
-    let dot = document.querySelector(".area__dot");
-    circle.style.height = circle.style.width = document.getElementById("input__D").value + "px";
-    dot.style.height = dot.style.width = document.getElementById("input__d").value + "px";
-    dot.style.top = document.getElementById("input__Oy").value + "px";
-    dot.style.left = document.getElementById("input__Ox").value + "px";
-    let move = new round();
+document.querySelector(".input__button").onclick = function(){
+    let circle = document.querySelector(".circle");
+    let dot = document.querySelector(".circle__dot");
+    let R = document.querySelector(".input__D").value / 2;
+    let d = document.querySelector(".input__d").value / 1;
+    let Oy = document.querySelector(".input__Oy").value / 1;
+    let Ox = document.querySelector(".input__Ox").value / 1;
+    if(((R / 2) < d) || (R * R < (Math.pow(Ox - R, 2) + Math.pow(Oy - R, 2))) || R == 0 
+        || d == 0 || Ox == 0 || Oy == 0){
+        alert("Problems with parameters of a circle or a dot");
+    }
+    else{
+        circle.style.height = circle.style.width = 2 * R + "px";
+        dot.style.height = dot.style.width = d + "px";
+        dot.style.top = Oy + "px";
+        dot.style.left = Ox + "px";
+        let move = new Round(circle, dot, R, d);
+    }
 }
 
 
