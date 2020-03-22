@@ -3,20 +3,24 @@ class Round{
     #dot;
     #dot_r;
     #circle_R;
-    constructor(circle, dot, R, d){
+    #Ox;
+    #Oy;
+    constructor(circle, dot, R, d, Ox, Oy){
         this.#circle = circle;
         this.#dot = dot;
         this.#circle.addEventListener("mousemove", this.move);
         this.#dot_r = d / 2;
         this.#circle_R = R;
+        this.#Ox = Ox;
+        this.#Oy = Oy;
         };
 
     move = (event) =>{
         let position = this.get_position(event.pageX, event.pageY);
         
-        this.#dot.style.left = position.x + "px";
-        this.#dot.style.top = position.y + "px";
-      // this.#dot.style.transform = "translate("+position.x+" + px, "+position.y+" + px)";
+        // this.#dot.style.left = position.x + "px";
+        // this.#dot.style.top = position.y + "px";
+      this.#dot.style.transform = 'translate('+(position.x - this.#Ox - 10)+'px, '+(position.y - this.#Oy - 10)+'px)';
        
     };
     get_position(x, y){
@@ -42,7 +46,7 @@ document.querySelector(".input__button").onclick = function(){
         dot.style.height = dot.style.width = d + "px";
         dot.style.top = Oy + "px";
         dot.style.left = Ox + "px";
-        let move = new Round(circle, dot, R, d);
+        let move = new Round(circle, dot, R, d, Ox, Oy);
     }
 }
 
