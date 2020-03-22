@@ -20,7 +20,7 @@ class Round{
         
         // this.#dot.style.left = position.x + "px";
         // this.#dot.style.top = position.y + "px";
-      this.#dot.style.transform = 'translate('+(position.x - this.#Ox - 10)+'px, '+(position.y - this.#Oy - 10)+'px)';
+      this.#dot.style.transform = 'translate('+(position.x - this.#Ox - this.#dot_r)+'px, '+(position.y - this.#Oy - this.#dot_r)+'px)';
        
     };
     get_position(x, y){
